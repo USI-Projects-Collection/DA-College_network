@@ -1,4 +1,4 @@
-name: DA_env
+name: data_anal
 channels:
   - defaults
   - conda-forge
@@ -31,6 +31,7 @@ dependencies:
   - jsonschema-specifications=2024.10.1=pyhd8ed1ab_1
   - jupyter_client=8.6.3=pyhd8ed1ab_1
   - jupyter_core=5.7.2=pyh31011fe_1
+  - kaleido-core=0.2.1=h27ca646_0
   - kiwisolver=1.4.8=py313h313beb8_0
   - lcms2=2.16=he93ba84_0
   - lerc=4.0.0=h313beb8_0
@@ -47,6 +48,7 @@ dependencies:
   - libwebp-base=1.3.2=h80987f9_1
   - llvm-openmp=14.0.6=hc6e5704_0
   - lz4-c=1.9.4=h313beb8_1
+  - mathjax=2.7.7=hce30654_3
   - matplotlib=3.10.0=py313hca03da5_1
   - matplotlib-base=3.10.0=py313hb68df00_0
   - matplotlib-inline=0.1.7=pyhd8ed1ab_1
@@ -78,6 +80,7 @@ dependencies:
   - python=3.13.2=h4862095_100_cp313
   - python-dateutil=2.9.0post0=py313hca03da5_2
   - python-fastjsonschema=2.21.1=pyhd8ed1ab_0
+  - python-kaleido=0.2.1=pyhd8ed1ab_0
   - python-tzdata=2025.1=pyhd8ed1ab_0
   - python_abi=3.13=0_cp313
   - pytz=2024.1=pyhd8ed1ab_0
@@ -103,3 +106,4 @@ dependencies:
   - zipp=3.21.0=pyhd8ed1ab_1
   - zlib=1.2.13=h18a0788_1
   - zstd=1.5.6=hfb09047_0
+prefix: /Users/paolodeidda/miniforge3/envs/data_anal

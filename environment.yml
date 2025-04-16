@@ -89,6 +89,7 @@ dependencies:
   - referencing=0.36.2=pyh29332c3_0
   - rpds-py=0.23.1=py313hb5fa170_0
   - scipy=1.15.1=py313h858dd5b_0
+  - seaborn
   - setuptools=72.1.0=py313hca03da5_0
   - six=1.16.0=pyhd3eb1b0_1
   - sqlite=3.45.3=h80987f9_0

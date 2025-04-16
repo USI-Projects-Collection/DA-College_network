@@ -4,52 +4,57 @@
 \usepackage{here}
 \usepackage{subcaption}
 \usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{graphicx}
 \usepackage{hyperref}
+
 
 \newcommand{\code}[1]{{\tt #1}}
 \newcommand\blankpage{%
-    \null
-    \thispagestyle{empty}%
-    \addtocounter{page}{-1}%
-    \newpage}
-
-% Set page size and margins
-\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-% Useful packages
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=black]{hyperref}
-
-% Remove section numbering
-\renewcommand{\thesection}{}
-\renewcommand{\thesubsection}{}
+	\null
+	\thispagestyle{empty}%
+	\addtocounter{page}{-1}%
+	\newpage}
 
 \title{
 	\normalfont\normalsize
 	\textsc{Data Analytics (2024-25)\\%
 	Universit\`a della Svizzera italiana}\\
-	\vspace{25pt}
+	\vspace{5pt}
 	\rule{\linewidth}{0.5pt}\\
-	\vspace{5pt}
-	{\huge College network \\
+	% \vspace{5pt}
+	{\huge College network\\
 	\small Course Assignment N.13}\\
-	\vspace{5pt}
+	% \vspace{5pt}
 	\rule{\linewidth}{1pt}\\
-	\vspace{12pt}
+	\vspace{5pt}
 }
 
 \author{
-  Paolo Deidda (\text{paolo.deidda@usi.ch}) \\ 
-  Andrea Luca Perugini (\text{andrea.perugini@usi.ch})\\
-  \url{https://github.com/USI-Projects-Collection/DA-College_network.git}
+	Paolo Deidda (\text{paolo.deidda@usi.ch}) \\ 
+	Andrea Luca Perugini (\text{andrea.perugini@usi.ch})\\
+	\url{https://github.com/USI-Projects-Collection/DA-College_network.git}
 }
 
 
 \begin{document}
 \maketitle
 
-% \tableofcontents
+\tableofcontents
 
+\newpage
+
+\section*{Introduction}
+This document outlines the structure of the analysis on a dataset of private messages exchanged on a UC Irvine social network.\\
+
+To run the code and reproduce the figures or outputs, please refer to the \texttt{README.md} file for setup and execution instructions.
+
+\section{Data Analysis}
+\input{part1.tex}
+
+\newpage
+
+\section{Graph Analysis}
+\input{part2.tex}
 
 \end{document}

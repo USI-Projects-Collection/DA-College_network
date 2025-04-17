@@ -1,73 +1,89 @@
+\subsection{Setup and Initial Exploration}
 
-\subsection{Setup and Data Loading}
-We utilized a dataset provided by the University of California, Irvine, comprising private messages exchanged among users within an online social network. The dataset includes 1899 unique nodes (users) and 59835 edges (messages). The data was loaded into a pandas DataFrame and preprocessed by converting timestamps from Unix time to readable datetime formats, facilitating temporal analysis.
+Before diving into the analysis, we started by taking a look at the structure of the dataset. It contains private messages exchanged on an online social network at UC Irvine. Each row represents a message with three main pieces of information:
 
-\subsection{Data Exploration}
+\begin{itemize}\setlength{\itemsep}{0pt}
+    \item \texttt{SRC}: the ID of the sender
+    \item \texttt{TGT}: the ID of the receiver
+    \item \texttt{UNIXTS}: the timestamp of the message in Unix time format
+\end{itemize}
 
-\subsubsection{Basic Statistics}
-The dataset consists of 1899 unique users exchanging messages, resulting in 59,835 interactions. We computed essential statistics:
+Since Unix time isn't very human-readable, we converted the timestamps into proper datetime objects. We also adjusted them to Pacific Time (America/Los\_Angeles), which is the timezone used at UC Irvine. This made it easier to interpret the data accurately.
 
-Total number of users (nodes): 1899
+As a first step, we asked ourselves a few basic questions: \textit{"How big is this dataset? How many users are involved? Over what time period were these messages exchanged?"}
 
-Total number of messages (edges): 59,835
+\begin{itemize}\setlength{\itemsep}{0pt}
+    \item Number of messages: 59,835
+    \item Unique users: 1,899
+    \item Time span: April 15, 2004 to October 26, 2004
+\end{itemize}
 
-Time span of data collection was determined by inspecting the minimum and maximum timestamps, indicating active periods of communication.
+These numbers show that the dataset covers just over six months of messaging among nearly 2,000 users.
 
-\subsubsection{Message Frequency Over Time}
-To explore message distribution over time, messages were grouped and counted by day. Figure 1 clearly demonstrates peaks and troughs, possibly corresponding to academic activities or social events influencing user interactions. This analysis provides insights into temporal dynamics affecting messaging behavior within the network.
+\subsection{Message Volume Over Time}
 
-\begin{figure}[h]
-\centering
-% \includegraphics[width=0.8\textwidth]{newplot.png}
-\caption{Daily Message Frequency}
-\label{fig:message_frequency}
+To get an idea of how activity changed over time, we counted how many messages were sent each day. As shown in Figure~\ref{fig:messages-per-day}, there are clear fluctuations, with some noticeable spikes. These might match up with academic deadlines or social events on campus.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{../Images/messages_per_day.png}
+    \caption{Daily message volume over time}
+    \label{fig:messages-per-day}
 \end{figure}
 
-\subsection{Network Construction}
-
-\subsubsection{Degree Analysis}
-We analyzed node degrees to determine connectivity patterns within the network. Nodes with high degrees represent highly interactive users. The degree distribution shown in Figure 2 exhibits a typical scale-free network characteristic, with many users having few interactions and a small subset having numerous interactions, reflecting real-world social networks.
-
-\begin{figure}[h]
-\centering
-% \includegraphics[width=0.8\textwidth]{degree Distribution.png}
-\caption{Degree Distribution}
-\label{fig:degree_distribution}
-\end{figure}
-
-\subsubsection{Identifying Isolated and One-Way Nodes}
-Further examination revealed isolated nodes (users who neither sent nor received messages) and one-way communication patterns (users who either only sent or only received messages). Identifying these nodes helps to understand user engagement and potential network fragmentation.
-
-\subsection{User Analysis}
-
-\subsubsection{Top Senders and Receivers}
-We determined users with the highest message activity, distinguishing top senders and receivers. Understanding these roles highlights influential users within the network, possibly indicating user centrality or authority.
-
-\subsubsection{PageRank Centrality}
-We calculated PageRank scores to identify influential nodes based on network interactions. High PageRank scores correspond to users frequently contacted by others, emphasizing their significance within the social structure.
-
-\subsubsection{Edge Reciprocity}
-Edge reciprocity was analyzed to assess mutual interactions. High reciprocity indicates robust two-way communication, suggesting deeper social connections among users.
+One thing worth pointing out is that the busiest period falls between April and June 2004, which lines up with UC Irvine's spring term. This supports the idea that the platform was most used during the academic semester.
 
 \subsection{Temporal Analysis}
 
-\subsubsection{Messages by Weekday}
-Analyzing message frequency by weekdays (Figure 3), we observed a clear pattern showing increased messaging during weekdays, which could be aligned with student schedules and reduced activity during weekends.
+Next, we wanted to see if students followed any specific patterns when sending messages. We looked at three time-based breakdowns: by hour of the day, by weekday, and by month. The results are shown in Figure~\ref{fig:temporal-analysis}.
 
-\begin{figure}[h]
-\centering
-% \includegraphics[width=0.8\textwidth]{weekday.png}
-\caption{Messages by Weekday}
-\label{fig:messages_weekday}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{../Images/messages_by_hourWrong.png}
+    \includegraphics[width=0.3\linewidth]{../Images/messages_by_weekday.png}
+    \includegraphics[width=0.3\linewidth]{../Images/messages_by_month.png}
+    \caption{Temporal breakdown of message activity by hour, weekday, and month (adjusted to local time)}
+    \label{fig:temporal-analysis}
 \end{figure}
 
-\subsubsection{Top User Activity Analysis}
-The hourly activity of top users was analyzed (Figure 4), revealing peak interaction times, which could indicate user availability or preferred communication periods. Such insights can guide future studies on user behavior or network usage patterns.
+However, something strange popped up right away: a lot of messages were sent between 5:00 and 8:00 a.m. UTC. That didn't seem right—why would students be so active that early in the morning? That made us think there might be an issue with the timezone.
 
-\begin{figure}[h]
-\centering
-% \includegraphics[width=0.8\textwidth]{hour.png}
-\caption{Hourly Activity of Top Users}
-\label{fig:hourly_activity}
+\subsection{UTC Time Conversion}
+
+Since the dataset is from UC Irvine, which is in the Pacific Time Zone (UTC--7), and the timestamps were in UTC, we figured we needed to adjust the time accordingly. After converting to Pacific Time, the peak shifted to around 10 a.m. to 1 p.m., which made a lot more sense.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{../Images/UTCmap.png}
+    \hspace{10pt}
+    \includegraphics[width=0.35\linewidth]{../Images/messages_by_hour.png}
+    \caption{\textbf{Left}: UTC time zone map. \textbf{Right}: Hourly message distribution after conversion to local time}
+    \label{fig:hourly-after-conversion}
 \end{figure}
 
+This small fix cleared up the confusion. The data was fine—it just needed the correct timezone. With this adjustment, the messaging behavior matched what you'd expect from a student population.
+
+\subsection{Top Users vs Least Users Analysis}
+
+While exploring the data, we noticed that User 234 was particularly active. This got us thinking:
+
+\textit{"Do the most central users behave differently from users who are active but not very well connected in the network?"}
+
+To find out, we used the PageRank algorithm to rank all users and then selected:
+
+\begin{itemize}
+    \item The top 10 users by PageRank
+    \item The bottom 10 users by PageRank among those with non-zero out-degree (so, users who actually sent messages)
+\end{itemize}
+
+We then compared how these two groups behave throughout the day by averaging their message activity hour-by-hour.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{../Images/top10_users_individual_lines_with_average.png}
+    \includegraphics[width=0.45\linewidth]{../Images/low_pr_active_users_with_average.png}
+    \caption{Comparison of average hourly activity between top 10 and bottom 10 active PageRank users}
+    \label{fig:top-vs-bottom}
+\end{figure}
+
+Looking at Figure~\ref{fig:top-vs-bottom}, it seems like the top users have a more stable and consistent messaging pattern throughout the day. Their activity spans many hours with smaller fluctuations. On the other hand, the less central users show a more sporadic and concentrated behavior, often limited to specific times. This could mean that more central users are generally more engaged in ongoing conversations, while less connected users tend to message in bursts.

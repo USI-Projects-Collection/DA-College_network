@@ -1,58 +1,55 @@
-\subsection{Network Structure Analysis}
+\subsection{Network Structure: Connectivity and Clustering}
 \label{sec:network_structure}
 
-The network architecture exhibits key social network characteristics. The calculated \textbf{graph density} is \texttt{0.0056}, confirming a sparse structure typical for such networks where most potential connections are absent. Despite sparsity, analysis of \textbf{weakly connected components (WCCs)} reveals high overall connectivity, with a single giant component encompassing 1893 nodes (over 99.6\% of users), facilitating potential information diffusion.
+The network, while representing a connected social environment, exhibits structural nuances typical of large social graphs. Its overall \textbf{graph density} is low (approx. 0.0056), indicating a sparse network where only a fraction of potential connections exist.
 
-Considering message directionality (Figure~\ref{fig:scc_visualization}), the \textbf{strongly connected components (SCCs)} analysis identified 601 components, dominated by a large core of 1294 users ($\approx$ 68\%) capable of reciprocal communication. The numerous smaller components highlight a significant periphery, indicating a distinct core-periphery structure critical to information flow dynamics.
-
-Local structure analysis shows moderate \textbf{unweighted clustering} (\texttt{0.087}), suggesting inherent social grouping beyond random chance. However, the \textbf{weighted clustering coefficient} (using message counts) is markedly lower (\texttt{0.0018}). This significant difference implies that while structural triads are present, the intensity of communication within these local groups is often unevenly distributed.
-
+Despite this sparsity, the network is largely interconnected when directionality is ignored, comprising only \textbf{4 weakly connected components (WCCs)}. The presence of a dominant giant component suggests that information can, in principle, diffuse widely. However, considering message directionality reveals a distinct core and periphery structure with \textbf{601 strongly connected components (SCCs)}. A large core SCC (containing 1294 nodes, 68\% of users) facilitates abundant reciprocal communication, while numerous smaller SCCs highlight a significant periphery. This structure, conceptually illustrated in Figure \ref{fig:scc_visualization}, is crucial for understanding information propagation dynamics. All the other components contain either one or two users. On the other hand, considering the WCCs, there are only three pairs of two users that form separate components, while the rest of the users are part of the largest WCC. This indicates that almost all users are connected in at least one direction.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{../scc.png}
-    \caption{Network visualization highlighting Strongly Connected Components (SCCs). Nodes coloured by SCC category (Red: Core; Grey: Peripheral; Others: Multi-Node SCCs). Size reflects degree.}
+    \caption{Network visualization highlighting Strongly Connected Components (SCCs). Nodes could be coloured by SCC category (e.g., Core vs. Periphery) and size reflecting degree.}
     \label{fig:scc_visualization}
 \end{figure}
 
-\subsection{Expanded Centrality Analysis}
+At the local level, the network shows signs of social clustering. The \textbf{unweighted average clustering coefficient} ($\approx 0.0872$) suggests a moderate tendency for users to form triads—higher than random chance. Yet, the \textbf{weighted clustering coefficient} (considering message frequency) drops significantly ($\approx 0.0018$). This disparity implies that while structural triangles exist, they often lack intense, frequent communication loops. Strong, closed triads based on high message volume appear less common than the network's structure might suggest.
+
+\subsection{Identifying Influential Users: Centrality Analysis}
 \label{sec:centrality_analysis}
 
-Beyond degree and PageRank (Section 1.4), \textbf{Eigenvector Centrality} and \textbf{Betweenness Centrality} provide further insights into node influence and structural roles.
+Centrality metrics help identify users holding key positions. We examined several, focusing here on \textbf{Betweenness Centrality}, which identifies network 'brokers'. An approximated weighted calculation highlighted \textbf{User 323} ($\approx 0.118$), \textbf{User 1624} ($\approx 0.086$), and \textbf{User 103} ($\approx 0.086$) as the top intermediaries. These individuals frequently lie on the shortest communication paths, suggesting they bridge different social circles and potentially influence information flow across the network core.
 
-Eigenvector centrality highlights influence via connections to other influential nodes. Top users like \texttt{User 1624} (score $\approx$ 0.47) and \texttt{User 398} ($\approx$ 0.30) demonstrate high influence despite not having top degrees, indicating strategic positioning. Others, like \texttt{User 105} ($\approx$ 0.27), combine high Eigenvector scores with high out-degree and prominence in other rankings.
+Comparing various centrality measures (including degree, PageRank, and betweenness) via Spearman rank correlations revealed strong positive associations overall. Popularity (in-degree), activity (out-degree), and PageRank influence are highly correlated ($\rho > 0.84$ often), especially between weighted and unweighted versions. This indicates that different facets of importance often coincide. Betweenness centrality, while still strongly correlated ($\rho \approx 0.72 - 0.77$), showed slightly weaker links to degree/PageRank, suggesting its role in capturing brokerage is somewhat distinct. These strong interrelations paint a picture where different forms of network influence are significantly intertwined.
 
-Betweenness centrality identifies crucial network brokers. Top users \texttt{User 323} ($\approx$ 0.12), \texttt{User 1624} ($\approx$ 0.08), and \texttt{User 105} ($\approx$ 0.08) score highly, reinforcing their central and bridging roles suggested by other measures. The appearance of other high-degree/PageRank users (like \texttt{User 32}, \texttt{User 103}) in the top 10 for Betweenness indicates that popular users can also be important intermediaries.
-
-Analysis of \textbf{Spearman rank correlations} reveals strong positive associations between all centrality measures (most $\rho > 0.7$). In-degree shows particularly high correlation with PageRank ($\rho \approx 0.93$) and Eigenvector ($\rho \approx 0.90$). Betweenness centrality displays slightly weaker, yet still strong, correlations ($\rho \approx 0.72 - 0.81$), suggesting it captures the most distinct structural aspect (brokerage). Overall, these strong correlations indicate that different facets of importance (popularity, influence via connections, brokerage) are significantly intertwined in this network.
-\subsection{Network Patterns: Degree Correlation and Activity Symmetry}
+\subsection{Network Patterns: Assortativity and Reciprocity}
 \label{sec:degree_patterns}
 
-Examining network mixing patterns, the \textbf{degree assortativity coefficient} was \texttt{-0.1375}. This negative value indicates \textbf{disassortativity}: high-degree users tend to connect with low-degree users, suggesting a hub-and-spoke structure rather than interconnected cores of highly active users.
+Examining network-wide connection patterns, we found the network to be \textbf{disassortative}, with a \textbf{degree assortativity coefficient} of approximately \textbf{-0.1375}. This negative value indicates a tendency for high-degree users (hubs) to connect with low-degree users, suggesting a "hub-and-spoke" topology rather than a core of interconnected hubs.
 
-In contrast to this network-level pattern, individual user activity shows symmetry. A strong positive \textbf{Pearson correlation ($\rho \approx 0.83$)} exists between user in-degree and out-degree, meaning users receiving many messages typically also send many. Thus, while the network structure promotes connections between different activity levels, highly engaged individuals tend to be active communicators in both directions.
+Contrasting this global pattern, interaction directness is high. The \textbf{graph reciprocity} is approximately \textbf{0.6364}, indicating a strong tendency for connections to be mutual; if A messages B, B is highly likely to message A back. This structural tendency towards mutual links is mirrored in individual behavior: a strong positive \textbf{Pearson correlation ($\rho \approx 0.8311$)} exists between user in-degree and out-degree (visualized in Figure \ref{fig:in_out_corr}). Users who receive messages from many people also tend to send them to many. Thus, while the network structure facilitates hub-spoke connections, the interactions themselves show strong mutuality, and active users engage vigorously in both sending and receiving.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../inoutdegree.png}
+    \caption{Scatter plot of user in-degree vs. out-degree. The strong positive correlation ($\rho \approx 0.83$) indicates symmetry in individual user activity.}
+    \label{fig:in_out_corr}
+\end{figure}
 
 
-% \begin{figure}[h!]
-%     \centering
-%     \includegraphics[width=0.7\textwidth]{../inoutdegree.png}
-%     \caption{Scatter plot of user in-degree vs. out-degree. The strong positive correlation ($\rho \approx 0.83$) indicates symmetry in individual user activity.}
-%     \label{fig:in_out_corr}
-% \end{figure}
 
-\subsection{Community Structure}
+\subsection{Uncovering Social Groups: Community Structure}
 \label{sec:community_structure}
 
-To uncover meso-scale organization, we applied the \textbf{Louvain algorithm} for community detection. The analysis partitioned the network into \textbf{16 distinct communities} with a \textbf{modularity score} of approximately \texttt{0.3607}. This modularity value indicates a meaningful, albeit imperfect, community structure significantly better than random partitioning.
-
-The detected communities exhibit considerable heterogeneity. Sizes range from large groups (e.g., Community 9: 361 nodes, Community 2: 305 nodes) down to three 2-node communities (likely isolated pairs). Internal structure also varies; the largest communities tend to be internally sparse, while some smaller communities show higher internal density or higher average internal centrality metrics. This community structure is visualized in Figure~\ref{fig:community_visualization}, illustrating the arrangement and relative sizes of the main groups.
-
+Beyond individual roles, networks often organize into meso-scale communities. Applying the \textbf{Louvain algorithm} directly to the directed graph (using message counts as weights) revealed such underlying organization, partitioning the network into \textbf{16 distinct communities}. The partition achieved a \textbf{modularity} score of approximately \textbf{0.3373}, indicating a meaningful structure where internal connections are significantly denser than expected by chance. This suggests genuine social clustering, visualized in Figure \ref{fig:community_visualization}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{../communities.png}
-    \caption{Network visualization with nodes coloured by detected community membership (Louvain algorithm).}
+    \caption{Network visualization coloured by detected community membership (16 communities found via Louvain).}
     \label{fig:community_visualization}
 \end{figure}
 
-The presence of this discernible community structure provides valuable insights into the social segmentation within the network.
+These communities exhibit significant \textbf{heterogeneity in size}. A few large communities (the top five containing \textbf{281, 214, 179, 173, and 162 nodes}) dominate the social landscape, while numerous smaller communities, including pairs, populate the periphery. This suggests a structure with core groups alongside more specialized or isolated clusters.
+
+
+Analysis of internal characteristics (without detailing per-community stats) reveals further variation. Larger communities tend to be internally sparser (lower density) but contain active members (indicated by higher average internal degrees). Conversely, some smaller communities exhibit higher density, suggesting tighter-knit groups. Importantly, highly central users (in terms of global PageRank or Betweenness) do not appear concentrated within single communities but are distributed across several, potentially serving as bridges between these groups.

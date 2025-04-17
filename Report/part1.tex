@@ -1,30 +1,28 @@
-\subsection{Setup and Data Loading}
+\subsection{Setup and Initial Exploration}
 
-To initiate the analysis, it was essential to first examine the structure of the dataset. The dataset contains private messages exchanged on an online social network at UC Irvine. Each entry represents a message characterized by the following attributes:
+Before diving into the analysis, we started by taking a look at the structure of the dataset. It contains private messages exchanged on an online social network at UC Irvine. Each row represents a message with three main pieces of information:
 
-\begin{itemize}
-    \item \texttt{SRC}: Identifier of the sender
-    \item \texttt{TGT}: Identifier of the receiver
-    \item \texttt{UNIXTS}: Timestamp of the message in Unix time format
+\begin{itemize}\setlength{\itemsep}{0pt}
+    \item \texttt{SRC}: the ID of the sender
+    \item \texttt{TGT}: the ID of the receiver
+    \item \texttt{UNIXTS}: the timestamp of the message in Unix time format
 \end{itemize}
 
-Given the non-human-readable format of UNIX timestamps, these were converted into datetime objects. To ensure temporal accuracy in the context of UC Irvine, all timestamps were further adjusted from UTC to the Pacific Time Zone (America/Los\_Angeles), accounting for daylight saving time.
+Since Unix time isn't very human-readable, we converted the timestamps into proper datetime objects. We also adjusted them to Pacific Time (America/Los\_Angeles), which is the timezone used at UC Irvine. This made it easier to interpret the data accurately.
 
-\subsection{Data Exploration}
+As a first step, we asked ourselves a few basic questions: \textit{"How big is this dataset? How many users are involved? Over what time period were these messages exchanged?"}
 
-As an initial step, the following questions were posed: \textit{"How large is the dataset? How many users are involved and over what time span does the activity occur?"}
-
-\begin{itemize}
-    \item Total number of messages: 59,835
-    \item Total number of unique users: 1,899
-    \item Temporal coverage: From April 15, 2004 to October 26, 2004
+\begin{itemize}\setlength{\itemsep}{0pt}
+    \item Number of messages: 59,835
+    \item Unique users: 1,899
+    \item Time span: April 15, 2004 to October 26, 2004
 \end{itemize}
 
-These findings confirmed that the dataset encompasses over six months of communication among nearly two thousand participants.
+These numbers show that the dataset covers just over six months of messaging among nearly 2,000 users.
 
 \subsection{Message Volume Over Time}
 
-To identify communication trends, the number of messages exchanged per day was aggregated. As shown in Figure~\ref{fig:messages-per-day}, notable fluctuations were observed, with certain peaks that may coincide with academic milestones or periods of heightened social activity.
+To get an idea of how activity changed over time, we counted how many messages were sent each day. As shown in Figure~\ref{fig:messages-per-day}, there are clear fluctuations, with some noticeable spikes. These might match up with academic deadlines or social events on campus.
 
 \begin{figure}[H]
     \centering
@@ -33,11 +31,11 @@ To identify communication trends, the number of messages exchanged per day was a
     \label{fig:messages-per-day}
 \end{figure}
 
-It is worth noting that the observed period of high activity, especially between April and June 2004, corresponds to the spring academic term at UC Irvine. This aligns with the plausible hypothesis that the social platform was actively used during regular academic semesters, when students are most engaged.
+One thing worth pointing out is that the busiest period falls between April and June 2004, which lines up with UC Irvine's spring term. This supports the idea that the platform was most used during the academic semester.
 
 \subsection{Temporal Analysis}
 
-To develop a comprehensive understanding of temporal behavior, message frequencies were analyzed across hours of the day, weekdays, and months. The resulting trends are presented collectively in Figure~\ref{fig:temporal-analysis}.
+Next, we wanted to see if students followed any specific patterns when sending messages. We looked at three time-based breakdowns: by hour of the day, by weekday, and by month. The results are shown in Figure~\ref{fig:temporal-analysis}.
 
 \begin{figure}[H]
     \centering
@@ -48,13 +46,11 @@ To develop a comprehensive understanding of temporal behavior, message frequenci
     \label{fig:temporal-analysis}
 \end{figure}
 
-From this initial overview, it became evident that students were particularly active between 5:00 and 8:00 a.m. UTC. This observation appeared counterintuitive, as such early hours are not typically associated with peak student communication. It prompted further investigation to verify whether this pattern was the result of a timezone misalignment.
+However, something strange popped up right away: a lot of messages were sent between 5:00 and 8:00 a.m. UTC. That didn't seem right—why would students be so active that early in the morning? That made us think there might be an issue with the timezone.
 
 \subsection{UTC Time Conversion}
 
-Upon reviewing the data origin, it was confirmed that the dataset is based at UC Irvine, which operates under the Pacific Time Zone (UTC--7). The recorded timestamps, however, were in UTC, thereby introducing a consistent 7-hour offset.
-
-By applying an appropriate timezone conversion to Pacific Time, the messaging peak shifted to a more plausible interval between 10:00 a.m. and 1:00 p.m., aligning with expected behavioral patterns.
+Since the dataset is from UC Irvine, which is in the Pacific Time Zone (UTC--7), and the timestamps were in UTC, we figured we needed to adjust the time accordingly. After converting to Pacific Time, the peak shifted to around 10 a.m. to 1 p.m., which made a lot more sense.
 
 \begin{figure}[H]
     \centering
@@ -65,33 +61,29 @@ By applying an appropriate timezone conversion to Pacific Time, the messaging pe
     \label{fig:hourly-after-conversion}
 \end{figure}
 
-
-This correction confirmed that there was no error in the data. The original hourly anomaly was a consequence of overlooking the UTC format. Once adjusted, the temporal patterns aligned well with typical student communication habits, validating both the dataset and its preprocessing.
+This small fix cleared up the confusion. The data was fine—it just needed the correct timezone. With this adjustment, the messaging behavior matched what you'd expect from a student population.
 
 \subsection{Top Users vs Least Users Analysis}
 
-Following the identification of User 234 as one of the most active participants, a question arose:
+While exploring the data, we noticed that User 234 was particularly active. This got us thinking:
 
-\textit{"Do highly central users demonstrate distinct behavioral patterns compared to less active ones?"}
+\textit{"Do the most central users behave differently from users who are active but not very well connected in the network?"}
 
-To investigate this, PageRank scores were computed to identify the most and least central users. Subsequently, their hourly messaging distributions were analyzed.
+To find out, we used the PageRank algorithm to rank all users and then selected:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{../Images/user_234_messages_by_hour.png}
-    \caption{Hourly message distribution for User 234}
-    \label{fig:user234-hourly}
-\end{figure}
+\begin{itemize}
+    \item The top 10 users by PageRank
+    \item The bottom 10 users by PageRank among those with non-zero out-degree (so, users who actually sent messages)
+\end{itemize}
 
-As illustrated in Figure~\ref{fig:user234-hourly}, User 234 maintained a consistent level of activity throughout the day, with noticeable intensity in the evening—potentially indicating a central role within the network.
-
-To broaden the perspective, the average hourly activity of the top 10 users (by PageRank) was compared against that of the bottom 1500 users.
+We then compared how these two groups behave throughout the day by averaging their message activity hour-by-hour.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{../Images/average_messages_by_hour_top_bottom.png}
-    \caption{Comparison of average hourly activity between top and bottom PageRank users}
+    \includegraphics[width=0.45\linewidth]{../Images/top10_users_individual_lines_with_average.png}
+    \includegraphics[width=0.45\linewidth]{../Images/low_pr_active_users_with_average.png}
+    \caption{Comparison of average hourly activity between top 10 and bottom 10 active PageRank users}
     \label{fig:top-vs-bottom}
 \end{figure}
 
-As shown in Figure~\ref{fig:top-vs-bottom}, top-ranked users exhibited a more consistent and structured communication pattern, particularly active during typical daytime hours. In contrast, lower-ranked users displayed sporadic and irregular messaging behavior, further reinforcing the relevance of centrality in understanding user roles within the network.
+Looking at Figure~\ref{fig:top-vs-bottom}, it seems like the top users have a more stable and consistent messaging pattern throughout the day. Their activity spans many hours with smaller fluctuations. On the other hand, the less central users show a more sporadic and concentrated behavior, often limited to specific times. This could mean that more central users are generally more engaged in ongoing conversations, while less connected users tend to message in bursts.

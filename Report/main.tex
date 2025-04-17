@@ -46,13 +46,20 @@
 
 \tableofcontents
 
-\vspace{100pt}
-\rule{\linewidth}{1pt}
+\vspace{50pt}
+% \rule{\linewidth}{0.5pt}
+
+\vspace*{\fill}
+
+\subsection*{Setup}
+
+To run the code and reproduce the figures or outputs, you can either run the Jupyter Notebook directly on Google Colab, or follow the setup and execution instructions provided in the \texttt{README.md} file included in the repository.
 
 \section*{Introduction}
-This document outlines the structure of the analysis on a dataset of private messages exchanged on a UC Irvine social network.\\
 
-To run the code and reproduce the figures or outputs, please refer to the \texttt{README.md} file for setup and execution instructions.
+This document presents an analysis of a dataset of private messages exchanged on a UC Irvine social network. The dataset includes 1,899 users and 59,835 messages, each represented as a directed interaction from a sender (SRC) to a recipient (TGT) with a Unix timestamp (UNIXTS).
+
+The report is structured into two main parts. The first part focuses on data exploration and temporal activity analysis, where we study messaging behavior over time and among different types of users. The second part covers network-based analysis, where we investigate the structure of the social graph, user centrality, interaction patterns, and community structures
 \newpage
 
 \section{Data Analysis}

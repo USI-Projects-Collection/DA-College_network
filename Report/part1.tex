@@ -1,21 +1,74 @@
+\section{Data Analysis}
 
 \subsection{Setup and Data Loading}
+We utilized a dataset provided by the University of California, Irvine, comprising private messages exchanged among users within an online social network. The dataset includes 1899 unique nodes (users) and 59835 edges (messages). The data was loaded into a pandas DataFrame and preprocessed by converting timestamps from Unix time to readable datetime formats, facilitating temporal analysis.
 
 \subsection{Data Exploration}
+
 \subsubsection{Basic Statistics}
+The dataset consists of 1899 unique users exchanging messages, resulting in 59,835 interactions. We computed essential statistics:
+
+Total number of users (nodes): 1899
+
+Total number of messages (edges): 59,835
+
+Time span of data collection was determined by inspecting the minimum and maximum timestamps, indicating active periods of communication.
+
 \subsubsection{Message Frequency Over Time}
+To explore message distribution over time, messages were grouped and counted by day. Figure 1 clearly demonstrates peaks and troughs, possibly corresponding to academic activities or social events influencing user interactions. This analysis provides insights into temporal dynamics affecting messaging behavior within the network.
+
+\begin{figure}[h]
+\centering
+% \includegraphics[width=0.8\textwidth]{newplot.png}
+\caption{Daily Message Frequency}
+\label{fig:message_frequency}
+\end{figure}
 
 \subsection{Network Construction}
-% \subsubsection{Creating the Graph}
+
 \subsubsection{Degree Analysis}
+We analyzed node degrees to determine connectivity patterns within the network. Nodes with high degrees represent highly interactive users. The degree distribution shown in Figure 2 exhibits a typical scale-free network characteristic, with many users having few interactions and a small subset having numerous interactions, reflecting real-world social networks.
+
+\begin{figure}[h]
+\centering
+% \includegraphics[width=0.8\textwidth]{degree Distribution.png}
+\caption{Degree Distribution}
+\label{fig:degree_distribution}
+\end{figure}
+
 \subsubsection{Identifying Isolated and One-Way Nodes}
+Further examination revealed isolated nodes (users who neither sent nor received messages) and one-way communication patterns (users who either only sent or only received messages). Identifying these nodes helps to understand user engagement and potential network fragmentation.
 
 \subsection{User Analysis}
+
 \subsubsection{Top Senders and Receivers}
+We determined users with the highest message activity, distinguishing top senders and receivers. Understanding these roles highlights influential users within the network, possibly indicating user centrality or authority.
+
 \subsubsection{PageRank Centrality}
+We calculated PageRank scores to identify influential nodes based on network interactions. High PageRank scores correspond to users frequently contacted by others, emphasizing their significance within the social structure.
+
 \subsubsection{Edge Reciprocity}
+Edge reciprocity was analyzed to assess mutual interactions. High reciprocity indicates robust two-way communication, suggesting deeper social connections among users.
 
 \subsection{Temporal Analysis}
+
 \subsubsection{Messages by Weekday}
+Analyzing message frequency by weekdays (Figure 3), we observed a clear pattern showing increased messaging during weekdays, which could be aligned with student schedules and reduced activity during weekends.
+
+\begin{figure}[h]
+\centering
+% \includegraphics[width=0.8\textwidth]{weekday.png}
+\caption{Messages by Weekday}
+\label{fig:messages_weekday}
+\end{figure}
+
 \subsubsection{Top User Activity Analysis}
+The hourly activity of top users was analyzed (Figure 4), revealing peak interaction times, which could indicate user availability or preferred communication periods. Such insights can guide future studies on user behavior or network usage patterns.
+
+\begin{figure}[h]
+\centering
+% \includegraphics[width=0.8\textwidth]{hour.png}
+\caption{Hourly Activity of Top Users}
+\label{fig:hourly_activity}
+\end{figure}
 

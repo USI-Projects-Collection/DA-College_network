@@ -30,24 +30,28 @@ Contrasting this global pattern, interaction directness is high. The \textbf{gra
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\textwidth]{../inoutdegree.png}
-    \caption{Scatter plot of user in-degree vs. out-degree. The strong positive correlation ($\rho \approx 0.83$) indicates symmetry in individual user activity.}
-    \label{fig:in_out_corr}
+
+    \begin{minipage}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../inoutdegree.png}
+        \caption{Scatter plot of user in-degree vs. out-degree.}
+        \label{fig:in_out_corr}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../communities.png}
+        \caption{Network visualization coloured by community membership.}
+        \label{fig:community_visualization}
+    \end{minipage}
+
 \end{figure}
-
-
 
 \subsection{Uncovering Social Groups: Community Structure}
 \label{sec:community_structure}
 
 Beyond individual roles, networks often organize into meso-scale communities. Applying the \textbf{Louvain algorithm} directly to the directed graph (using message counts as weights) revealed such underlying organization, partitioning the network into \textbf{16 distinct communities}. The partition achieved a \textbf{modularity} score of approximately \textbf{0.3373}, indicating a meaningful structure where internal connections are significantly denser than expected by chance. This suggests genuine social clustering, visualized in Figure \ref{fig:community_visualization}.
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{../communities.png}
-    \caption{Network visualization coloured by detected community membership (16 communities found via Louvain).}
-    \label{fig:community_visualization}
-\end{figure}
 
 These communities exhibit significant \textbf{heterogeneity in size}. A few large communities (the top five containing \textbf{281, 214, 179, 173, and 162 nodes}) dominate the social landscape, while numerous smaller communities, including pairs, populate the periphery. This suggests a structure with core groups alongside more specialized or isolated clusters.
 

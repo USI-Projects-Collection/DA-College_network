@@ -33,24 +33,40 @@ To identify communication trends, the number of messages exchanged per day was a
     \label{fig:messages-per-day}
 \end{figure}
 
+It is worth noting that the observed period of high activity, especially between April and June 2004, corresponds to the spring academic term at UC Irvine. This aligns with the plausible hypothesis that the social platform was actively used during regular academic semesters, when students are most engaged.
+
 \subsection{Temporal Analysis}
 
-During the preliminary analysis of hourly messaging patterns, an anomaly was noted: a substantial number of messages appeared to be sent between 5:00 and 8:00 a.m. UTC—an unusual timeframe for student activity.
-
-This observation suggested a potential misalignment between recorded and actual local times. Considering the dataset originates from UC Irvine, the hypothesis emerged that timestamps required conversion to Pacific Time. Upon applying this correction, the messaging peak appropriately shifted to between 10:00 a.m. and 1:00 p.m.
-
-To develop a comprehensive understanding of temporal behavior, message frequencies were further analyzed across hours of the day, weekdays, and months. The resulting trends are presented collectively in Figure~\ref{fig:temporal-analysis}.
+To develop a comprehensive understanding of temporal behavior, message frequencies were analyzed across hours of the day, weekdays, and months. The resulting trends are presented collectively in Figure~\ref{fig:temporal-analysis}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\linewidth]{../Images/messages_by_hour.png}
+    \includegraphics[width=0.3\linewidth]{../Images/messages_by_hourWrong.png}
     \includegraphics[width=0.3\linewidth]{../Images/messages_by_weekday.png}
     \includegraphics[width=0.3\linewidth]{../Images/messages_by_month.png}
     \caption{Temporal breakdown of message activity by hour, weekday, and month (adjusted to local time)}
     \label{fig:temporal-analysis}
 \end{figure}
 
-The analysis reveals heightened activity during mid-morning to early afternoon, reduced interaction over weekends, and seasonal variations, with communication peaking in spring and early autumn—likely aligned with the academic calendar.
+From this initial overview, it became evident that students were particularly active between 5:00 and 8:00 a.m. UTC. This observation appeared counterintuitive, as such early hours are not typically associated with peak student communication. It prompted further investigation to verify whether this pattern was the result of a timezone misalignment.
+
+\subsection{UTC Time Conversion}
+
+Upon reviewing the data origin, it was confirmed that the dataset is based at UC Irvine, which operates under the Pacific Time Zone (UTC--7). The recorded timestamps, however, were in UTC, thereby introducing a consistent 7-hour offset.
+
+By applying an appropriate timezone conversion to Pacific Time, the messaging peak shifted to a more plausible interval between 10:00 a.m. and 1:00 p.m., aligning with expected behavioral patterns.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\linewidth]{../Images/UTCmap.png}
+    \hspace{10pt}
+    \includegraphics[width=0.35\linewidth]{../Images/messages_by_hour.png}
+    \caption{\textbf{Left}: UTC time zone map. \textbf{Right}: Hourly message distribution after conversion to local time}
+    \label{fig:hourly-after-conversion}
+\end{figure}
+
+
+This correction confirmed that there was no error in the data. The original hourly anomaly was a consequence of overlooking the UTC format. Once adjusted, the temporal patterns aligned well with typical student communication habits, validating both the dataset and its preprocessing.
 
 \subsection{Top Users vs Least Users Analysis}
 
